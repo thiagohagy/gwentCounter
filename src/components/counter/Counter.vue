@@ -5,7 +5,7 @@
       <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" @tap="$router.push('/faction')"/>
     </ActionBar>
 
-    <GridLayout rows="auto,auto,auto, auto" columns="*,*,*,*,*,*,*,*,*" horizontalAlignment="center" verticalAlignment="center">
+    <GridLayout rows="auto,auto,auto,auto,auto" columns="*,*,*,*,*,*,*,*,*" horizontalAlignment="center" verticalAlignment="center">
 
       <Image row="0" col="0" class="factionImage" colSpan="4" :src="images[playersFactions.player1]" />
       <Image row="0" col="5" class="factionImage" colSpan="4" :src="images[playersFactions.player2]" />
@@ -23,7 +23,16 @@
       <Button row="2" col="0" @tap="openCalc(0)" colSpan="4" text='calc' class="btn btn-default"/>
       <Button row="2" col="5" @tap="openCalc(1)" colSpan="4" text='calc' class="btn btn-default"/>
 
-      <Button row="3" col="0" colSpan="9" class="btn btn-danger" text="Reset points" @tap="resetPoints" />
+      <!-- <Button row="3" col="1" class="btn btn-primary" text='<<' />
+      <Button row="3" col="2" class="btn btn-primary" text='||' />
+      <Button row="3" col="3" class="btn btn-primary" text='>'  />
+      <Button row="3" col="4" class="btn btn-primary" text='>>' /> -->
+
+      <Button row="3" col="1" @tap="openCalc(0)" colSpan="2" text='<<' class="btn btn-primary"/>
+      <Button row="3" col="3" @tap="openCalc(1)" colSpan="3" text='>' class="btn btn-primary"/>
+      <Button row="3" col="6" @tap="openCalc(1)" colSpan="2" text='>>' class="btn btn-primary"/>
+
+      <Button row="4" col="0" colSpan="9" class="btn btn-danger" text="Reset points" @tap="resetPoints" />
 
     </GridLayout>
 
@@ -61,7 +70,7 @@
         ];
       },
       updatePoints(player, points){
-        this.playersPoints[player] = poits;
+        this.playersPoints[player] = points;
       },
       openCalc(player) {
         this.$showModal(Calculator,  { context: { propsData: { total: this.playersPoints[player], player  }}}).then( data => {
@@ -72,8 +81,7 @@
             }
           }
           dado = dado.split('');
-          this.updatePoints(data.player, dado)
-
+          this.updatePoints(data.player, dado);
         });
       }
     } ,
