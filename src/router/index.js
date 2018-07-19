@@ -4,8 +4,8 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 import Home from '../components/Home';
-import HelloWorld from '../components/HelloWorld';
-import Counter from '../components/Counter';
+import Faction from '../components/counter/Faction';
+import Counter from '../components/counter/Counter';
 
 const router = new VueRouter({
   pageRouting: true,
@@ -14,21 +14,21 @@ const router = new VueRouter({
       path: '/home',
       component: Home,
       meta: {
-        title: 'Home',
+        title: 'Início',
       },
     },
     {
-      path: '/hello',
-      component: HelloWorld,
+      path: '/faction',
+      component: Faction,
       meta: {
-        title: 'Hello World',
+        title: 'Facções',
       },
     },
     {
       path: '/counter',
       component: Counter,
       meta: {
-        title: 'Counter',
+        title: 'Contador',
       },
     },
     {path: '*', redirect: '/home'},

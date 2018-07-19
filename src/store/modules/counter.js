@@ -1,23 +1,37 @@
 const state = {
-  count: 0,
+  player1faction:'',
+  player2faction:'',
+  factions: [
+    "~/images/monsters.png",
+    "~/images/scoiatel.png",
+    "~/images/norternRealms.png",
+    "~/images/nilfgaard.png",
+    "~/images/skellige.png"
+  ]
 };
 
 const mutations = {
-  decrement (state) {
-    state.count--;
-  },
-  increment (state) {
-    state.count++;
-  },
+  setPlayersFactions: (state,payload) => {
+    state.player1faction = payload.player1faction;
+    state.player2faction = payload.player2faction;
+  }
 };
 
+const getters = {
+  getImages: (state) => {
+    return state.factions;
+  },
+  getFactions: (state) => {
+    return { player1: state.player1faction, player2: state.player2faction };
+  },
+}
+
 const actions = {
-  increment: ({commit}) => commit('increment'),
-  decrement: ({commit}) => commit('decrement'),
 };
 
 export default {
   state,
   mutations,
   actions,
+  getters,
 };

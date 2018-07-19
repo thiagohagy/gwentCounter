@@ -1,10 +1,9 @@
 <template>
   <Page class="page">
-    <ActionBar class="action-bar" title="Home"/>
+    <ActionBar class="action-bar" title="Gwent"/>
 
     <StackLayout>
-      <Button class="btn btn-primary" @tap="$router.push('/counter')">Counter</Button>
-      <Button class="btn btn-primary" @tap="$router.push('/hello')">Hello World</Button>
+      <Button class="btn btn-primary" @tap="$router.push('/faction')">Contador de pontos</Button>
     </StackLayout>
 
   </Page>
