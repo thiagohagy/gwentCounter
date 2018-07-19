@@ -1,20 +1,19 @@
 <template>
-
-  <Page>
-    <ActionBar title="Escolha de facção">
+  <Page class="page">
+     <ActionBar class="action-bar" title="Voltar">
       <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" @tap="$router.push('/home')"/>
     </ActionBar>
 
-    <FlexboxLayout  flexWrap="wrap" justifyContent="center" backgroundColor="#3c495e"> -->
+    <FlexboxLayout  flexWrap="wrap" justifyContent="center">
 
 			<Label width='50%' class='label' text="Jogador 1" />
 			<Label width='50%' class='label' text="Jogador 2" />
 
-      <Image width='50%' class="img" :src="this.images[this.imgPlayer1Counter]" @tap='setImagePlayer(1)' />
-      <Image width='50%' class="img" :src="this.images[this.imgPlayer2Counter]" @tap='setImagePlayer(2)' />
+      <Image width='50%' class="img" :src="this.images[this.imgPlayer1Counter]" @tap='setImagePlayer(1)' @swipe='setImagePlayer(1)' />
+      <Image width='50%' class="img" :src="this.images[this.imgPlayer2Counter]" @tap='setImagePlayer(2)' @swipe='setImagePlayer(2)' />
 
-	    <Button :text="'fa-eye' | fonticon"  width="50%" @tap="playGame" />
-	    <Button text="Lets play gwent"       width="50%" @tap="playGame" />
+	    <!-- <Button :text="'fa-youtube-square' | fonticon"  width="50%" @tap="playGame" /> -->
+	    <Button text="Lets play gwent"  class="btn btn-danger" width="50%" @tap="playGame" />
 
   	</FlexboxLayout>
 
@@ -69,7 +68,7 @@
       padding-top:150px;
       text-align: center;
       font-size: 25px;
-      color: #ccc
+      color: #000
   }
 </style>
 

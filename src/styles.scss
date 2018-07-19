@@ -7,5 +7,23 @@
 // @see https://docs.nativescript.org/ui/styling
 
 .fa {
-  font-family: FontAwesome, fontawesome-webfont;
+  font-family: FontAwesome, fontawesome;
+}
+
+.btn-default {
+  color:#000
+}
+
+.page{
+  background-image: url('~/images/papperBg.jpg')
+}
+
+.btn-danger{
+  background-color: red;
+  color: #fff;
+}
+
+.btn-success{
+  background-color: green;
+  color: #fff;
 }

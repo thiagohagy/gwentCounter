@@ -3,7 +3,7 @@
     <ActionBar class="action-bar" title="Gwent"/>
 
     <StackLayout>
-      <Button class="btn btn-primary" @tap="$router.push('/faction')">Contador de pontos</Button>
+      <Button class="btn btn-default" @tap="$router.push('/faction')">Contador de pontos</Button>
     </StackLayout>
 
   </Page>

@@ -1,6 +1,6 @@
 <template>
 
-  <Page id='page'>
+  <Page class="page">
     <ActionBar class="action-bar" title="Voltar">
       <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" @tap="$router.push('/faction')"/>
     </ActionBar>
@@ -10,19 +10,20 @@
       <Image row="0" col="0" class="factionImage" colSpan="4" :src="images[playersFactions.player1]" />
       <Image row="0" col="5" class="factionImage" colSpan="4" :src="images[playersFactions.player2]" />
 
-      <ListPicker row="1" col="0"  class="p-15 text-center font-weight-bold" id="langPickerP1m" :items="numeros"/>
-      <ListPicker row="1" col="1"  class="p-15 text-center font-weight-bold" id="langPickerP1c" :items="numeros"/>
-      <ListPicker row="1" col="2"  class="p-15 text-center font-weight-bold" id="langPickerP1d" :items="numeros"/>
-      <ListPicker row="1" col="3"  class="p-15 text-center font-weight-bold" id="langPickerP1u" :items="numeros"/>
+      <ListPicker row="1" col="0" :items="numeros" v-model='playersPoints[0][0]'/>
+      <ListPicker row="1" col="1" :items="numeros" v-model='playersPoints[0][1]'/>
+      <ListPicker row="1" col="2" :items="numeros" v-model='playersPoints[0][2]'/>
+      <ListPicker row="1" col="3" :items="numeros" v-model='playersPoints[0][3]'/>
 
-      <ListPicker row="1" col="5"  class="p-15 text-center font-weight-bold" id="langPickerP1m" :items="numeros"/>
-      <ListPicker row="1" col="6"  class="p-15 text-center font-weight-bold" id="langPickerP1c" :items="numeros"/>
-      <ListPicker row="1" col="7"  class="p-15 text-center font-weight-bold" id="langPickerP1d" :items="numeros"/>
-      <ListPicker row="1" col="8"  class="p-15 text-center font-weight-bold" id="langPickerP1u" :items="numeros"/>
-      
-      <Button row="2" col="0" @tap="openCalc" colSpan="4" text='calc' :tap="resetPoints" />
-      <Button row="2" col="5" @tap="openCalc" colSpan="4" text='calc' :tap="resetPoints" />
-      <!-- <Button row="3" col="0" colSpan="9" text="Reset points" :tap="resetPoints" /> -->
+      <ListPicker row="1" col="5" :items="numeros" v-model='playersPoints[1][0]'/>
+      <ListPicker row="1" col="6" :items="numeros" v-model='playersPoints[1][1]'/>
+      <ListPicker row="1" col="7" :items="numeros" v-model='playersPoints[1][2]'/>
+      <ListPicker row="1" col="8" :items="numeros" v-model='playersPoints[1][3]'/>
+
+      <Button row="2" col="0" @tap="openCalc(0)" colSpan="4" text='calc' class="btn btn-default"/>
+      <Button row="2" col="5" @tap="openCalc(1)" colSpan="4" text='calc' class="btn btn-default"/>
+
+      <Button row="3" col="0" colSpan="9" class="btn btn-danger" text="Reset points" @tap="resetPoints" />
 
     </GridLayout>
 
@@ -38,8 +39,12 @@
     data(){
       return {
         playersFactions: {},
+        playersPoints: [
+          ['0','0','0','0'],
+          ['0','0','0','0'],
+        ],
         images: [],
-        numeros: [0,1,2,3,4,5,6,7,8,9],
+        numeros: ['0','1','2','3','4','5','6','7','8','9'],
       }
     },
     methods:{
@@ -49,18 +54,32 @@
         'getImages',
         'getFactions'
       ]),
-      openCalc() {
-        this.$showModal(Calculator);
+      resetPoints(){
+        this.playersPoints = [
+          ['0','0','0','0'],
+          ['0','0','0','0'],
+        ];
+      },
+      updatePoints(player, points){
+        this.playersPoints[player] = poits;
+      },
+      openCalc(player) {
+        this.$showModal(Calculator,  { context: { propsData: { total: this.playersPoints[player], player  }}}).then( data => {
+          let dado = data.total.toString()
+          if(dado.length < 4)   {
+            while (dado.length < 4) {
+              dado = '0' + dado;
+            }
+          }
+          dado = dado.split('');
+          this.updatePoints(data.player, dado)
+
+        });
       }
     } ,
     beforeMount(){
       this.images = this.getImages();
       this.playersFactions = this.getFactions()
-
-      console.log(this.playersFactions.player1);
-      console.log(this.playersFactions.player2);
-      console.log(this.images[this.playersFactions.player1]);
-      console.log(this.images[this.playersFactions.player2]);
     }
   };
 </script>
@@ -76,11 +95,8 @@
   }
 
   .factionImage{
-    margin: 10px
-  }
-
-  #page{
-    background-image: url('~/images/papperBg.jpg')
+    margin: 10px;
+    height: 200px;
   }
 </style>
 
