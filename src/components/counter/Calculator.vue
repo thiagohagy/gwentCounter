@@ -60,9 +60,6 @@
 
           if (resultado) {
             this.result = resultado.toString();
-
-            // let campo = this.$refs.result;
-            // console.log(campo);
           } else {
             this.result = '0';
             Toast.makeText("Não foi possivel calcular :(").show();
