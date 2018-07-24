@@ -17,6 +17,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "nativescript-audio": "^4.3.5",
     "nativescript-fontawesome": "^1.0.0",
     "nativescript-fonticon": "^1.1.1",
     "nativescript-theme-core": "^1.0.4",

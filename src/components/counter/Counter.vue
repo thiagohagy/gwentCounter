@@ -23,14 +23,10 @@
       <Button row="2" col="0" @tap="openCalc('0')" colSpan="4" text='calc' class="btn btn-default"/>
       <Button row="2" col="5" @tap="openCalc('1')" colSpan="4" text='calc' class="btn btn-default"/>
 
-      <!-- <Button row="3" col="1" class="btn btn-primary" text='<<' />
-      <Button row="3" col="2" class="btn btn-primary" text='||' />
-      <Button row="3" col="3" class="btn btn-primary" text='>'  />
-      <Button row="3" col="4" class="btn btn-primary" text='>>' /> -->
-
-      <!-- <Button row="3" col="1" @tap="openCalc(0)" colSpan="2" text='<<' class="btn btn-primary"/>
-      <Button row="3" col="3" @tap="openCalc(1)" colSpan="3" text='>' class="btn btn-primary"/>
-      <Button row="3" col="6" @tap="openCalc(1)" colSpan="2" text='>>' class="btn btn-primary"/> -->
+      <Button row="3" col="1" @tap="prevSong()" colSpan="2" text='<<' class="btn btn-primary"/>
+      <Button row="3" col="3" @tap="playStop()" colSpan="3" text='||'  v-if='audioOpts.status' class="btn btn-primary"/>
+      <Button row="3" col="3" @tap="playStop()" colSpan="3" text='>'  v-if='!audioOpts.status' class="btn btn-primary"/>
+      <Button row="3" col="6" @tap="nextSong()" colSpan="2" text='>>' class="btn btn-primary"/>
 
       <Button row="4" col="0" colSpan="9" class="btn btn-danger" text="Reset points" @tap="resetPoints" />
 
@@ -50,8 +46,15 @@
         playersFactions: {},
         player1Points: ['0','0','0','0'],
         player2Points: ['0','0','0','0'],
-        images: [],
         numeros: ['0','1','2','3','4','5','6','7','8','9'],
+        images: [],
+        audioOpts:{
+          songs: [],
+          status: true, // true for playing , false for stoped
+          currentSong: 0,
+          songsFolder: '~/sound/',
+        },
+        player: null,
       }
     },
     methods:{
@@ -59,7 +62,8 @@
       ]),
       ...mapGetters([
         'getImages',
-        'getFactions'
+        'getFactions',
+        'getSongs',
       ]),
       resetPoints(){
         this.player1Points = ['0','0','0','0'];
@@ -88,11 +92,31 @@
         this.$showModal(Calculator,  { context: { propsData: { total: points , player  }}}).then( data => {
           this.updatePoints(data.player, data.total);
         });
-      }
+      },
+      prevSong(){
+
+      },
+      playStop(){
+
+      },
+      nextSong(){
+
+      },
     } ,
     beforeMount(){
       this.images = this.getImages();
-      this.playersFactions = this.getFactions()
+      this.playersFactions = this.getFactions();
+      this.songs = this.getSongs();
+
+      const audio = require('nativescript-audio');
+      this.audioPlayer = new audio.TNSPlayer();
+      
+      this.audioPlayer.playFromUrl( { audioFile: `${this.audioOpts.songsFolder}${this.audioOpts.songs.currentSong}`} ).then((result) => {
+        this.audioPlayer.volume = 0.000001;
+        console.dir(this.audioPlayer.volume);
+      });
+      
+
     }
   };
 </script>
