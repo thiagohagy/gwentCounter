@@ -9,16 +9,16 @@ const state = {
     "~/images/skellige.png"
   ],
   songs: [
-    "~/sound/01.mp3",
-    "~/sound/02.mp3",
-    "~/sound/03.mp3",
-    "~/sound/04.mp3",
-    "~/sound/05.mp3",
-    "~/sound/06.mp3",
-    "~/sound/07.mp3",
-    "~/sound/08.mp3",
-    "~/sound/09.mp3",
-    "~/sound/10.mp3",
+    "~/audio/audio01.mp3",
+    "~/audio/audio02.mp3",
+    "~/audio/audio03.mp3",
+    "~/audio/audio04.mp3",
+    "~/audio/audio05.mp3",
+    "~/audio/audio06.mp3",
+    "~/audio/audio07.mp3",
+    "~/audio/audio08.mp3",
+    "~/audio/audio09.mp3",
+    "~/audio/audio10.mp3",
   ]
 };
 

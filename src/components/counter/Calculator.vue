@@ -69,13 +69,13 @@
         }
       },
       backspace(){
-        if(this.result.length > 0) {
-          let dado = this.result;
+        let dado = this.result;
+        if(dado.length > 0) {
           this.result = dado.substring(0, dado.length - 1);
         }
       },
       dismiss(){
-        this.$modal.close();
+        this.$modal.close({});
       },
       apply(){
         this.calculate();

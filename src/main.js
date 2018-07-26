@@ -4,14 +4,14 @@ import store from './store';
 import { TNSFontIcon, fonticon } from 'nativescript-fonticon';
 
 import './styles.scss';
-TNSFontIcon.debug = true;
+TNSFontIcon.debug = false;
 TNSFontIcon.paths = {
   'fa': './css/fontawesome.css',
 };
 TNSFontIcon.loadCss();
 
 Vue.config.silent = false;
-Vue.filter('fonticon', fonticon)
+Vue.filter('fonticon', fonticon);
 
 new Vue({
 

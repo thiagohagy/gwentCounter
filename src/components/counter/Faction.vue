@@ -1,8 +1,6 @@
 <template>
   <Page class="page">
-     <ActionBar class="action-bar" title="Voltar">
-      <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" @tap="$router.push('/home')"/>
-    </ActionBar>
+     <ActionBar class="action-bar" title="Esolha a facção"/>
 
     <FlexboxLayout  flexWrap="wrap" justifyContent="center">
 
@@ -65,7 +63,7 @@
   }
 
   .label{
-      padding-top:150px;
+      padding-top: 100px;
       text-align: center;
       font-size: 25px;
       color: #000

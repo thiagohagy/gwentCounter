@@ -10,13 +10,13 @@ import Counter from '../components/counter/Counter';
 const router = new VueRouter({
   pageRouting: true,
   routes: [
-    {
-      path: '/home',
-      component: Home,
-      meta: {
-        title: 'Início',
-      },
-    },
+    // {
+    //   path: '/home',
+    //   component: Home,
+    //   meta: {
+    //     title: 'Início',
+    //   },
+    // },
     {
       path: '/faction',
       component: Faction,
@@ -31,10 +31,10 @@ const router = new VueRouter({
         title: 'Contador',
       },
     },
-    {path: '*', redirect: '/home'},
+    { path: '*', redirect: '/faction'},
   ],
 });
 
-router.replace('/home');
+router.replace('/faction');
 
 module.exports = router;

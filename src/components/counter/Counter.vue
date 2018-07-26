@@ -5,7 +5,7 @@
       <NavigationButton text="Go Back" android.systemIcon="ic_menu_back" @tap="$router.push('/faction')"/>
     </ActionBar>
 
-    <GridLayout rows="auto,auto,auto,auto,auto" columns="*,*,*,*,*,*,*,*,*" horizontalAlignment="center" verticalAlignment="center">
+    <GridLayout rows="auto,auto,auto,auto,auto,auto" columns="*,*,*,*,*,*,*,*,*" horizontalAlignment="center" verticalAlignment="center">
 
       <Image row="0" col="0" class="factionImage" colSpan="4" :src="images[playersFactions.player1]" />
       <Image row="0" col="5" class="factionImage" colSpan="4" :src="images[playersFactions.player2]" />
@@ -23,12 +23,11 @@
       <Button row="2" col="0" @tap="openCalc('0')" colSpan="4" text='calc' class="btn btn-default"/>
       <Button row="2" col="5" @tap="openCalc('1')" colSpan="4" text='calc' class="btn btn-default"/>
 
-      <Button row="3" col="1" @tap="prevSong()" colSpan="2" text='<<' class="btn btn-primary"/>
-      <Button row="3" col="3" @tap="playStop()" colSpan="3" text='||'  v-if='audioOpts.status' class="btn btn-primary"/>
-      <Button row="3" col="3" @tap="playStop()" colSpan="3" text='>'  v-if='!audioOpts.status' class="btn btn-primary"/>
-      <Button row="3" col="6" @tap="nextSong()" colSpan="2" text='>>' class="btn btn-primary"/>
+      <Button row="3" col="0" @tap="resetPoints" colSpan="9" text='Resetar pontos' class="btn btn-danger"/>
 
-      <Button row="4" col="0" colSpan="9" class="btn btn-danger" text="Reset points" @tap="resetPoints" />
+      <Button row="4" col="1" @tap="changeSong(false)" colSpan="2" text='<<' class="btn btn-primary"/>
+      <Button row="4" col="3" @tap="playStop()" colSpan="3" text='>||' class="btn btn-primary"/>
+      <Button row="4" col="6" @tap="changeSong(true)" colSpan="2" text='>>' class="btn btn-primary"/>
 
     </GridLayout>
 
@@ -39,6 +38,7 @@
 <script>
   import { mapActions, mapGetters } from 'vuex';
   import Calculator from './Calculator.vue';
+  import * as audio from "nativescript-audio";
 
   export default {
     data(){
@@ -50,11 +50,10 @@
         images: [],
         audioOpts:{
           songs: [],
-          status: true, // true for playing , false for stoped
           currentSong: 0,
-          songsFolder: '~/sound/',
         },
-        player: null,
+        audioPlayerStatus: false,
+        audioPlayer: null,
       }
     },
     methods:{
@@ -93,30 +92,54 @@
           this.updatePoints(data.player, data.total);
         });
       },
-      prevSong(){
-
-      },
       playStop(){
-
+        if(this.audioPlayer.isAudioPlaying()) {
+          this.audioPlayerStatus = false;
+          this.audioPlayer.pause();
+        } else {
+          this.audioPlayerStatus = true;
+          this.audioPlayer.play();
+        }
       },
-      nextSong(){
-
+      playSong(){
+        let song = this.audioOpts.songs[this.audioOpts.currentSong];
+        this.audioPlayer.initFromFile({
+          audioFile: song,
+          loop: false,
+          completeCallback: this.changeSong,
+        }).then(() => {
+          this.audioPlayer.play();
+          this.audioPlayerStatus = true;
+        })
       },
-    } ,
+      changeSong(op) {
+        if(!op) op = true;
+
+        if(op) {
+          this.audioOpts.currentSong += 1;
+        } else {
+          this.audioOpts.currentSong -= 1;
+        }
+
+        if (this.audioOpts.currentSong < 0 ) {
+          this.audioOpts.currentSong = this.audioOpts.songs.length;
+        } else if( this.audioOpts.currentSong > this.audioOpts.songs.length) {
+          this.audioOpts.currentSong = 0;
+        }
+        this.playSong();
+      }
+    },
     beforeMount(){
       this.images = this.getImages();
       this.playersFactions = this.getFactions();
-      this.songs = this.getSongs();
-
-      const audio = require('nativescript-audio');
+      this.audioOpts.songs = this.getSongs();
       this.audioPlayer = new audio.TNSPlayer();
-      
-      this.audioPlayer.playFromUrl( { audioFile: `${this.audioOpts.songsFolder}${this.audioOpts.songs.currentSong}`} ).then((result) => {
-        this.audioPlayer.volume = 0.000001;
-        console.dir(this.audioPlayer.volume);
-      });
-      
-
+      this.audioPlayer.debug = true;
+      this.audioPlayer.volume = 0.5;
+      this.playSong();
+    },
+    beforeDestroy(){
+      this.audioPlayer.pause();
     }
   };
 </script>
@@ -130,6 +153,7 @@
   .label{
       padding-top:150px;
   }
+
 
   .factionImage{
     margin: 10px;
